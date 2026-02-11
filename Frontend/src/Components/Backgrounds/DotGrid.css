@@ -1,0 +1,27 @@
+.dot-grid {
+  position: fixed;        /* make it permanent wallpaper */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;         /* better than 100vh */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  z-index: -1;           
+  pointer-events: none; 
+  background: black;  
+}
+
+.dot-grid__wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.dot-grid__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

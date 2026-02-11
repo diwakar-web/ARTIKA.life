@@ -1,10 +1,21 @@
 import React from 'react';
 import './Reminder.css';
-
+import DarkVeil from "../Components/Backgrounds/DarkVeil"
 export default function Reminder() {
     return (
-        <div className="reminder-container">
-            <h1>Reminder Page</h1>
+        <div className="reminder-container page">
+            <DarkVeil
+                hueShift={0}
+                noiseIntensity={0}
+                scanlineIntensity={0}
+                speed={1}
+                scanlineFrequency={0}
+                warpAmount={0}
+            />
+            <div className='content'>
+                <h1>Reminder Page</h1>
+            </div>
+            
         </div>
     );
 }

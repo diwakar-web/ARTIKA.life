@@ -1,0 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.page {
+  position: relative;
+  height: 100vh; /* or auto */
+  width: 100%;
+  overflow: hidden;
+  color: white;
+}
