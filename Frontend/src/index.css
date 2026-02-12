@@ -1,12 +1,18 @@
 *{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }
 .page {
   position: relative;
-  height: 100vh; /* or auto */
+  height: 500vh; /* or auto */
   width: 100%;
   overflow: hidden;
   color: white;
+  background: black;
 }

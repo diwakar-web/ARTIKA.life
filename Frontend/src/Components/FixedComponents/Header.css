@@ -1,0 +1,130 @@
+.Header_container{
+    height: 6.5vh;
+    width: 60%;
+    position: fixed;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.225);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    overflow: visible;
+    backdrop-filter: blur(12px);
+    z-index: 10000;
+}
+
+
+.list_item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    padding: 0 25px;
+    border-radius: 50px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.type1{
+    background: black;
+    color: white;
+    border-radius: 50%;
+    height: 45px;
+    width: 30px;
+    font-size: 12px;
+}
+
+.type2{
+    background: #e6e6e6;
+    color: black;
+}
+
+.type2:hover{
+    background: white;
+}
+
+.nav_item{
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.mega_menu{
+    position: absolute;
+    top: 130%;
+    right: 0;            /* align to right */
+    left: auto;          /* remove center alignment */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+
+.nav_item:hover .mega_menu{
+    opacity: 1;
+    visibility: visible;
+    top: 110%;
+}
+
+
+.mega_card{
+    width: 280px;
+    padding: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    text-align: left;
+}
+
+
+.mega_card h4{
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+}
+
+.mega_card p{
+    margin: 5px 0 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.hamburger{
+    display: none;
+}
+@media (max-width: 1115px){
+
+    .Header_container{
+        width: 95%;
+        justify-content: space-between;
+        padding: 0 15px;
+    
+    }
+
+    .type2{
+        display: none;
+    }
+
+    .hamburger{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        background: black;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+}
