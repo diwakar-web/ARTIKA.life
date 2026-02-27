@@ -1,0 +1,80 @@
+.footer {
+  width: 100%;
+  background: #000;
+  box-sizing: border-box;
+  padding:20px
+}
+
+/* ================= GRID ================= */
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;  /* 3 separate equal elements */
+  align-items: start;
+}
+
+/* Individual elements */
+.footer-element h4 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 25px;
+  color: #fff;
+}
+
+.footer-element ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-element ul li {
+  margin-bottom: 3px;
+}
+
+.footer-element ul li a {
+  font-size: 20px;
+  color: #fff;
+  text-decoration: underline;
+  transition: 0.3s ease;
+}
+
+.footer-element ul li a:hover {
+  color: #ed155d;
+}
+
+/* Contact aligned right */
+.contact {
+  text-align: right;
+}
+
+.contact p {
+  font-size: 20px;
+  margin: 8px 0;
+}
+
+/* ================= BRAND SECTION ================= */
+
+.footer-brand {
+  text-align: right;
+}
+
+.footer-brand h1 {
+  font-size: 140px;
+  font-weight: 400;
+  letter-spacing: 5px;
+  margin: 0;
+}
+
+.brand-white {
+  color: #e5e5e5;
+}
+
+.brand-pink {
+  color: #ed155d;
+}
+
+.footer-brand p {
+  margin-top: 25px;
+  font-size: 36px;
+  color: #ccc;
+}

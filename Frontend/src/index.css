@@ -10,7 +10,7 @@
 }
 .page {
   position: relative;
-  height: 500vh; /* or auto */
+  height: auto; /* or auto */
   width: 100%;
   overflow: hidden;
   color: white;

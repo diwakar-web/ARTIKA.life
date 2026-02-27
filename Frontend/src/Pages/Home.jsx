@@ -2,15 +2,54 @@ import React from 'react';
 import './Home.css';
 import Aurora from "../Components/Backgrounds/Aurora"
 import Header from "../Components/FixedComponents/Header"
+import Footer from "../Components/FixedComponents/Footer"
 import CardSwap, { Card } from '../Components/FixedComponents/CardSwap';
 import SplitText from '../Components/FixedComponents/SplitText';
 import CurvedLoop from '../Components/FixedComponents/CurvedLoop';
 import ScrollReveal from '../Components/FixedComponents/ScrollReveal';
 import ScrollVelocity from '../Components/FixedComponents/ScrollVelocity';
+import ChromaGrid from '../Components/FixedComponents/ChromaGrid';
+import diwakar from "../assets/diwakar.png"
+import dhruv from "../assets/dhruv.png"
+import kavya from "../assets/kavya.png"
+
+
 export default function Home() {
     const handleAnimationComplete = () => {
         console.log('All letters have animated!');
+
     };
+
+    const items = [
+        {
+            image: diwakar,
+            title: "Diwakar Nagar",
+            subtitle: "MERN Developer",
+            handle: "@diwakar_nagar01",
+            borderColor: "#3B82F6",
+            gradient: "linear-gradient(145deg, #3B82F6, #000)",
+            url: "https://github.com/diwakar-web"
+        },
+        {
+            image: dhruv,
+            title: "Dhruv Rai",
+            subtitle: "Backend Engineer",
+            handle: "@dhruv_rai",
+            borderColor: "#10B981",
+            gradient: "linear-gradient(180deg, #10B981, #000)",
+            url: "https://linkedin.com/in/mikechen"
+        },
+        {
+            image: kavya,
+            title: "Kavya Nagotra",
+            subtitle: "Data Analyst",
+            handle: "@kavya_nagotra",
+            borderColor: "#f63b5aff",
+            gradient: "linear-gradient(145deg, #f63b64ff, #000)",
+            url: "https://www.linkedin.com/in/kavya-nagotra-88a04528b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+        }
+    ];
+
     return (
         <div className="home-container page">
             <Aurora
@@ -55,7 +94,7 @@ export default function Home() {
                     </div>
                     <div className='sec2 sec'>
                         <CardSwap
-                            cardDistance={60}
+                            cardDistance={20}
                             verticalDistance={70}
                             delay={5000}
                             pauseOnHover={false}>
@@ -115,7 +154,29 @@ export default function Home() {
                         className="custom-scroll-text"
                     />
                 </div>
-            
+
+                <div className='features'>
+                    
+                </div>
+                <div className='team'>
+                    <ChromaGrid
+                        items={items}
+                        radius={300}
+                        damping={0.45}
+                        fadeOut={0.6}
+                        ease="power3.out"
+                    />
+
+
+                </div>
+                <div className='line'>
+
+                </div>
+                <Footer/>
+                <div className='cpr'>
+                    ©2026 artika.life All rights reserved
+
+                </div>
             </div>
         </div>
     );
