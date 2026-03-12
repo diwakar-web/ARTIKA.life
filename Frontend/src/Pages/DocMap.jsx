@@ -8,7 +8,7 @@ export default function DocMap() {
   const [iframeSrc, setIframeSrc] = useState("");
   const [doctorType, setDoctorType] = useState("");
   const [pincode, setPincode] = useState("");
-const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;  // Replace with your actual Google Maps Embed API key
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;  // Replace with your actual Google Maps Embed API key
   // read query params
   const { search } = useLocation();
   const params = React.useMemo(() => new URLSearchParams(search), [search]);
@@ -199,14 +199,11 @@ const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;  // Replace with your a
           </div>
         </div>
       </div>
-      <div className='line'>
-      
-                      </div>
-                      <Footer/>
-                      <div className='cpr'>
-                          ©2026 artika.life All rights reserved
-      
-                      </div>
+      <Footer />
+      <div className='cpr'>
+        ©2026 artika.life All rights reserved
+
+      </div>
     </>
   );
 }
