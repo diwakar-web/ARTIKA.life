@@ -12,7 +12,8 @@ import ChromaGrid from '../Components/FixedComponents/ChromaGrid';
 import diwakar from "../assets/diwakar.png"
 import dhruv from "../assets/dhruv.png"
 import kavya from "../assets/kavya.png"
-
+import CircularGallery from '../Components/FixedComponents/CircilarGallery';
+import TextPressure from '../Components/FixedComponents/TextPressure';
 
 export default function Home() {
     const handleAnimationComplete = () => {
@@ -156,7 +157,28 @@ export default function Home() {
                 </div>
 
                 <div className='features'>
-                    
+                    <CircularGallery
+                        bend={0}
+                        borderRadius={0.05}
+                        scrollSpeed={2}
+                        scrollEase={0.05}
+                    />
+                </div>
+
+
+                <div className='teambehind'>
+                    <TextPressure
+                        text="The Team Behind!"
+                        flex
+                        alpha={false}
+                        stroke={false}
+                        width={70}
+                        weight
+                        italic
+                        textColor="#ffffff"
+                        strokeColor="#5227FF"
+                        minFontSize={50}
+                    />
                 </div>
                 <div className='team'>
                     <ChromaGrid
@@ -172,7 +194,7 @@ export default function Home() {
                 <div className='line'>
 
                 </div>
-                <Footer/>
+                <Footer />
                 <div className='cpr'>
                     ©2026 artika.life All rights reserved
 

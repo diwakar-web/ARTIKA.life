@@ -103,10 +103,8 @@ const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;  // Replace with your a
   return (
     <>
       <Header />
-      <main>
+      <div className="main">
         <div className="find-doctor-container">
-          <h2>🩺 Find Medical Experts</h2>
-
           <div className="search-section" role="region" aria-label="Find doctors">
             <label htmlFor="doctorType" className="sr-only">Select Specialization</label>
             <select
@@ -200,8 +198,15 @@ const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;  // Replace with your a
             )}
           </div>
         </div>
-      </main>
-      <Footer />
+      </div>
+      <div className='line'>
+      
+                      </div>
+                      <Footer/>
+                      <div className='cpr'>
+                          ©2026 artika.life All rights reserved
+      
+                      </div>
     </>
   );
 }
