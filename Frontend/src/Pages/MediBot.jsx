@@ -1,6 +1,6 @@
-import "./Care.css";
+import "./MediBot.css";
 import Prism from "../Components/Backgrounds/Prism"
-export default function Care() {
+export default function MediBot() {
     return (
         <div className="care-container page">
             <Prism
@@ -15,7 +15,7 @@ export default function Care() {
                 glow={0.5}
             />
             <div className="content">
-                <h1>CARE PAGE</h1>
+                <h1>MEDIBOT</h1>
             </div>
         </div>
     );

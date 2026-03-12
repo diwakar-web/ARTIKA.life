@@ -51,7 +51,7 @@ export default function Home() {
     ];
 
     return (
-        <div className="home-container page">
+        <div className="home-containerpage">
             <Aurora
                 colorStops={["#7cff67", "#B19EEF", "#5227FF"]}
                 blend={0.25}

@@ -10,13 +10,20 @@
 }
 .page {
   position: relative;
+  height: 100vh; /* or auto */
+  width: 100%;
+  overflow: hidden;
+  color: white;
+}
+
+.home-containerpage{
+  position: relative;
   height: auto; /* or auto */
   width: 100%;
   overflow: hidden;
   color: white;
   background: black;
 }
-
 
  /* font-family: "Federant", serif;
   font-weight: 400;

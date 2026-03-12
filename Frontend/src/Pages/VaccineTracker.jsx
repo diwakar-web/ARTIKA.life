@@ -1,7 +1,7 @@
 import React from 'react';
-import './Reminder.css';
+import './VaccineTracker.css';
 import DarkVeil from "../Components/Backgrounds/DarkVeil"
-export default function Reminder() {
+export default function VaccineTracker() {
     return (
         <div className="reminder-container page">
             <DarkVeil
@@ -13,7 +13,7 @@ export default function Reminder() {
                 warpAmount={0}
             />
             <div className='content'>
-                <h1>Reminder Page</h1>
+                <h1>VaccineTRACKER</h1>
             </div>
             
         </div>
