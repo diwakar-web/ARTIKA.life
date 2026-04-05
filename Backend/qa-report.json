@@ -1,0 +1,262 @@
+{
+  "runAt": "2026-04-05T07:33:14.294Z",
+  "baseUrl": "http://127.0.0.1:5055",
+  "checks": [
+    {
+      "check": "ENV_VALIDATION",
+      "result": {
+        "pass": true,
+        "detail": {
+          "required": [
+            "MONGODB_URI",
+            "OLLAMA_BASE_URL",
+            "OLLAMA_MODEL"
+          ],
+          "missing": [],
+          "empty": [],
+          "values": {
+            "MONGODB_URI": "[set]",
+            "OLLAMA_BASE_URL": "http://localhost:11434",
+            "OLLAMA_MODEL": "phi3"
+          }
+        }
+      }
+    },
+    {
+      "check": "DATABASE_TEST",
+      "result": {
+        "pass": true,
+        "detail": {
+          "connected": true,
+          "writeChat": true,
+          "writePrescription": true,
+          "readChat": true,
+          "readPrescription": true,
+          "chatId": "69d2103d1a6d83f437c9d8fc",
+          "prescriptionId": "69d2103e1a6d83f437c9d901"
+        }
+      }
+    },
+    {
+      "check": "CHAT_ENDPOINT_TEST",
+      "result": {
+        "pass": false,
+        "detail": [
+          {
+            "name": "normal_message",
+            "status": 504,
+            "pass": false,
+            "latencyMs": 20396,
+            "responsePreview": ""
+          },
+          {
+            "name": "memory_window_progression",
+            "status": 200,
+            "pass": true,
+            "historyUsed": 1
+          },
+          {
+            "name": "empty_message",
+            "status": 400,
+            "pass": true,
+            "body": {
+              "success": false,
+              "error": {
+                "message": "message is required."
+              }
+            }
+          },
+          {
+            "name": "long_message",
+            "status": 400,
+            "pass": true,
+            "body": {
+              "success": false,
+              "error": {
+                "message": "message is too long. Max length is 2000."
+              }
+            }
+          },
+          {
+            "name": "invalid_userId",
+            "status": 400,
+            "pass": true,
+            "body": {
+              "success": false,
+              "error": {
+                "message": "userId is required."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "check": "OCR_UPLOAD_TEST",
+      "result": {
+        "pass": false,
+        "detail": [
+          {
+            "name": "upload_image",
+            "status": 201,
+            "pass": true,
+            "body": {
+              "success": true,
+              "data": {
+                "id": "69d21076383bd2c11b33899f",
+                "userId": "qa_user_1775374394292",
+                "source": "upload",
+                "severity": "medium",
+                "medicines": [
+                  {
+                    "medicineName": "",
+                    "dosage": "Paracetamol 500mg",
+                    "instructions": "1 tablet after food twice daily"
+                  }
+                ],
+                "createdAt": "2026-04-05T07:34:14.452Z"
+              }
+            }
+          },
+          {
+            "name": "upload_pdf",
+            "status": 422,
+            "pass": false,
+            "body": {
+              "success": false,
+              "error": {
+                "code": "OCR_PDF_RENDER_UNAVAILABLE",
+                "message": "PDF OCR rendering is not available in this runtime. Use a sharp build with PDF support.",
+                "debug": "PDF OCR rendering is not available in this runtime. Use a sharp build with PDF support."
+              }
+            }
+          },
+          {
+            "name": "invalid_file_type",
+            "status": 415,
+            "pass": true,
+            "body": {
+              "success": false,
+              "error": {
+                "code": "UPLOAD_FILE_TYPE_NOT_ALLOWED",
+                "message": "Only image and PDF files are allowed."
+              }
+            }
+          },
+          {
+            "name": "oversized_file",
+            "status": 400,
+            "pass": true,
+            "body": {
+              "success": false,
+              "error": {
+                "code": "UPLOAD_FILE_TOO_LARGE",
+                "message": "File too large. Max upload size is 10MB."
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "check": "LLM_INTEGRATION_TEST",
+      "result": {
+        "pass": true,
+        "detail": [
+          {
+            "name": "ollama_call",
+            "pass": true,
+            "latencyMs": 12867,
+            "preview": "\"It's important to monitor your symptoms closely. If you experience difficulty breathing, chest pain, or persistent fever, please seek medical attention immediately.\""
+          },
+          {
+            "name": "timeout_handling",
+            "pass": true,
+            "detail": {
+              "code": "LLM_TIMEOUT",
+              "statusCode": 504,
+              "message": "LLM request timed out. Try again in a moment."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "check": "ERROR_HANDLING_TEST",
+      "result": {
+        "pass": true,
+        "detail": [
+          {
+            "name": "invalid_route",
+            "pass": true,
+            "status": 404,
+            "body": {
+              "success": false,
+              "error": {
+                "message": "Route not found."
+              }
+            }
+          },
+          {
+            "name": "ollama_down_service",
+            "pass": true,
+            "detail": {
+              "code": "LLM_UNREACHABLE",
+              "statusCode": 502,
+              "message": "Unable to connect to Ollama. Ensure Ollama is running locally."
+            }
+          },
+          {
+            "name": "mongodb_down_connect",
+            "pass": true,
+            "detail": {
+              "message": "Can't call `openUri()` on an active connection with different connection strings. Make sure you aren't calling `mongoose.connect()` multiple times. See: https://mongoosejs.com/docs/connections.html#multiple_connections"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "check": "PERFORMANCE_TEST",
+      "result": {
+        "pass": true,
+        "detail": {
+          "promptLength": 1935,
+          "llmLatencyMs": 11035,
+          "notes": {
+            "memoryWindowConfig": 5,
+            "llmTokenLimit": 120
+          }
+        }
+      }
+    },
+    {
+      "check": "SECURITY_TEST",
+      "result": {
+        "pass": true,
+        "detail": [
+          {
+            "name": "malicious_input_no_crash",
+            "pass": true,
+            "status": 200
+          },
+          {
+            "name": "empty_user_rejected",
+            "pass": true,
+            "status": 400,
+            "body": {
+              "success": false,
+              "error": {
+                "message": "userId is required."
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2
+  }
+}
