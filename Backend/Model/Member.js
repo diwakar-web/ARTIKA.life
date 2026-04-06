@@ -169,6 +169,18 @@ const memberSchema = new mongoose.Schema(
       type: [healthLockerDocSchema],
       default: [],
     },
+
+    // ── Telegram Bot Integration ──────────────────────────────────────
+    telegramChatId: {
+      type: String,
+      default: null,
+    },
+    
+    activationCode: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
   },
   {
     timestamps: true,         // Adds createdAt and updatedAt automatically

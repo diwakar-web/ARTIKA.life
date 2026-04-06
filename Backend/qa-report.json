@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-04-05T19:34:28.471Z",
+  "runAt": "2026-04-06T03:54:42.017Z",
   "baseUrl": "http://127.0.0.1:5055",
   "checks": [
     {
@@ -32,8 +32,8 @@
           "writePrescription": true,
           "readChat": true,
           "readPrescription": true,
-          "chatId": "69d2b948c6e032fdacfe8da5",
-          "prescriptionId": "69d2b949c6e032fdacfe8daa"
+          "chatId": "69d32e860f68ccd42a8fbec7",
+          "prescriptionId": "69d32e860f68ccd42a8fbecd"
         }
       }
     },
@@ -46,8 +46,8 @@
             "name": "normal_message",
             "status": 200,
             "pass": true,
-            "latencyMs": 19756,
-            "responsePreview": "It's common to experience a headache from time to time, but if it persists or worsens over several days, consider speaking with a healthcare professional for advice on managing your symptoms and explo",
+            "latencyMs": 15579,
+            "responsePreview": "Try drinking more water, resting in a quiet room and consider taking Paracetamol for pain relief if needed. If your symptoms persist or worsen, please see a doctor.",
             "historyUsed": 1
           },
           {
@@ -104,8 +104,8 @@
             "body": {
               "success": true,
               "data": {
-                "id": "69d2b976e3d63633a2bc5e7a",
-                "userId": "qa_user_1775417668471",
+                "id": "69d32eb43526d5302573fce3",
+                "userId": "qa_user_1775447682017",
                 "source": "upload",
                 "severity": "medium",
                 "medicines": [
@@ -115,7 +115,7 @@
                     "instructions": "after food twice daily"
                   }
                 ],
-                "createdAt": "2026-04-05T19:35:18.856Z"
+                "createdAt": "2026-04-06T03:55:32.676Z"
               }
             }
           },
@@ -167,8 +167,8 @@
           {
             "name": "ollama_call",
             "pass": true,
-            "latencyMs": 10930,
-            "preview": "```\nIt's good to monitor your health regularly. While a persistent or worsening cough should be checked by a doctor, if you currently feel well aside from this symptom and do not exhibit any signs of "
+            "latencyMs": 12843,
+            "preview": "As an AI with no capacity to diagnose or prescribe, I recommend monitoring your symptoms and consulting a healthcare provider if they persist beyond a few days, especially since you've mentioned havin"
           },
           {
             "name": "timeout_handling",
@@ -222,8 +222,8 @@
       "result": {
         "pass": true,
         "detail": {
-          "promptLength": 1935,
-          "llmLatencyMs": 4983,
+          "promptLength": 2083,
+          "llmLatencyMs": 4486,
           "notes": {
             "memoryWindowConfig": 5,
             "llmTokenLimit": 120

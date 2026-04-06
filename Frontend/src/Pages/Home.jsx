@@ -48,7 +48,7 @@ export default function Home() {
             handle: "@dhruv_rai",
             borderColor: "#10B981",
             gradient: "linear-gradient(180deg, #10B981, #000)",
-            url: "https://linkedin.com/in/mikechen"
+            url: "https://www.linkedin.com/in/dhruv-rai-2432a421b/"
         },
         {
             image: kavya,

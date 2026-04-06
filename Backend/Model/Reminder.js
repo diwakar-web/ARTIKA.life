@@ -61,6 +61,12 @@ const reminderSchema = new mongoose.Schema(
         message: "Number of times must match the frequency",
       },
     },
+
+    // Tracks how many doses have been reported as taken/ignored
+    dosesTaken: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields automatically

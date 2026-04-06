@@ -51,12 +51,15 @@ const addMember = async (req, res) => {
       photoLink = await uploadFile(req.file, folderPath);
     }
 
+    const uniqueCode = "art" + Math.floor(100 + Math.random() * 900);
+
     // Build the member document
     const newMember = new Member({
       userEmail: userEmail.toLowerCase().trim(),
       name,
       relation,
       dob,
+      activationCode: uniqueCode,
       age,
       sex,
       category,
@@ -146,6 +149,10 @@ const updateMember = async (req, res) => {
         updateData[field] = req.body[field];
       }
     });
+
+    if (!member.activationCode) {
+      updateData.activationCode = "art" + Math.floor(100 + Math.random() * 900);
+    }
 
     // Handle nested fields
     if (req.body.growthData !== undefined) updateData.growthData = safeParse(req.body.growthData, null);

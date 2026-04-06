@@ -11,6 +11,10 @@ const chatRoutes = require("./Routes/chat.routes");
 const uploadRoutes = require("./Routes/upload.routes");
 const errorHandler = require("./MiddleWare/errorHandler");
 
+// Start tracking and TG bot
+require("./services/telegramBot");
+require("./services/reminderCron");
+
 // ─────────────────────────────────────────────────────────────────────────────
 //  Connect to MongoDB Atlas
 // ─────────────────────────────────────────────────────────────────────────────

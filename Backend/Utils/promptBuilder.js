@@ -11,18 +11,23 @@ function formatHistory(history) {
     .join("\n");
 }
 
-function buildPrompt(history, message) {
+function buildPrompt(history, message, context = "") {
   const historyBlock = formatHistory(history);
 
   // System rules are embedded directly in prompt for local model alignment.
   return `You are ARTIKA Healthcare Assistant.
 
 Rules:
-1. Do not provide diagnosis.
-2. Do not prescribe medicines.
-3. Keep responses short (maximum 3-5 lines).
-4. Suggest seeing a licensed doctor when symptoms are serious.
-5. If emergency symptoms appear, advise immediate emergency care.
+1. You can only answer health-related and medical questions.
+2. Do not hallucinate. You must focus on the provided context if available.
+3. Do not provide diagnosis.
+4. Do not prescribe medicines.
+5. Keep responses short (maximum 3-5 lines).
+6. Suggest seeing a licensed doctor when symptoms are serious.
+7. If emergency symptoms appear, advise immediate emergency care.
+
+Context:
+${context}
 
 Conversation history:
 ${historyBlock}

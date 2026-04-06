@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./UserDashBoard.css";
 import Header from "../Components/FixedComponents/Header";
 import Orb from "../Components/Backgrounds/Orb";
@@ -12,6 +12,19 @@ export default function UserDashBoard() {
   const [loading, setLoading] = useState(true);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [tMsgVisible, setTMsgVisible] = useState(!!location.state?.showTelegramMessage);
+  const activationCode = location.state?.activationCode;
+
+  useEffect(() => {
+    if (tMsgVisible) {
+      const timer = setTimeout(() => {
+        setTMsgVisible(false);
+      }, 20000); // hide after 20 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [tMsgVisible]);
 
   // 1. Get logged-in user's email from Firebase
   useEffect(() => {
@@ -54,7 +67,8 @@ export default function UserDashBoard() {
                 const totalTimes = rJson.data.reduce((acc, curr) => {
                   const timesPerDay = curr.times && Array.isArray(curr.times) ? curr.times.length : 0;
                   const days = curr.duration ? parseInt(curr.duration) || 1 : 1;
-                  return acc + (timesPerDay * days);
+                  const total = (timesPerDay * days) - (curr.dosesTaken || 0);
+                  return acc + (total > 0 ? total : 0);
                 }, 0);
                 
                 return { id: m._id, count: totalTimes };
@@ -167,8 +181,8 @@ export default function UserDashBoard() {
         <button className="edit-btn" onClick={() => updateMember(member)}>
           Update
         </button>
-        {/* Tracker Button for Kids/Newborns */}
-        {(member.category === "Kid" || member.category === "Newborn") && (
+        {/* Tracker Button for Newborns */}
+        {member.category === "Newborn" && (
           <button
             className="tracker-btn"
             onClick={() => navigate("/vaccine", { state: { member } })}
@@ -213,6 +227,17 @@ export default function UserDashBoard() {
             </button>
           </div>
         </div>
+
+        {tMsgVisible && activationCode && (
+          <div style={{ background: "rgba(99, 102, 241, 0.2)", border: "1px solid #6366f1", padding: "15px", borderRadius: "8px", margin: "10px 0 20px 0", textAlign: "center", color: "#fff" }}>
+            <h3 style={{ margin: "0 0 5px 0", color: "#a5b4fc" }}>Link Telegram for Notifications</h3>
+            <p style={{ margin: 0 }}>
+              Go to our Telegram bot <a href="https://t.me/Artikalife_bot" target="_blank" rel="noopener noreferrer" style={{color: "#fff", textDecoration: "underline"}}>@Artikalife_bot</a> and send the following activation command:
+              <br/>
+              <strong style={{ fontSize: "1.2rem", background: "rgba(0,0,0,0.5)", padding: "5px 10px", borderRadius: "4px", display: "inline-block", marginTop: "10px", letterSpacing: "1px", cursor: "pointer", border: "1px solid rgba(255,255,255,0.2)" }} title="Copy to clipboard" onClick={() => {navigator.clipboard.writeText('/start ' + activationCode); alert('Copied to clipboard!')}}>/start {activationCode} 📋</strong>
+            </p>
+          </div>
+        )}
 
         {loading ? (
           <div className="no-members"><p>Loading members…</p></div>

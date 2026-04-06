@@ -281,7 +281,12 @@ export default function AddMember() {
       }
 
       alert(editMember ? "Member Updated!" : "Member Added!");
-      navigate("/user");
+      navigate("/user", { 
+        state: { 
+          showTelegramMessage: !editMember,
+          activationCode: editMember?.activationCode || json?.data?.activationCode || savedMemberId
+        } 
+      });
     } catch (err) {
       setSubmitError(err.message);
     } finally {
