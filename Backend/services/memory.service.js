@@ -1,4 +1,4 @@
-const Chat = require("../models/chat.model");
+const Chat = require("../Model/chat.model");
 
 async function getRecentMessages(userId, limit = 5) {
   const normalizedLimit = Math.min(Math.max(Number(limit) || 5, 3), 5);

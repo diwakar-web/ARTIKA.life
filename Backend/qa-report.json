@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-04-05T07:33:14.294Z",
+  "runAt": "2026-04-05T19:34:28.471Z",
   "baseUrl": "http://127.0.0.1:5055",
   "checks": [
     {
@@ -32,28 +32,29 @@
           "writePrescription": true,
           "readChat": true,
           "readPrescription": true,
-          "chatId": "69d2103d1a6d83f437c9d8fc",
-          "prescriptionId": "69d2103e1a6d83f437c9d901"
+          "chatId": "69d2b948c6e032fdacfe8da5",
+          "prescriptionId": "69d2b949c6e032fdacfe8daa"
         }
       }
     },
     {
       "check": "CHAT_ENDPOINT_TEST",
       "result": {
-        "pass": false,
+        "pass": true,
         "detail": [
           {
             "name": "normal_message",
-            "status": 504,
-            "pass": false,
-            "latencyMs": 20396,
-            "responsePreview": ""
+            "status": 200,
+            "pass": true,
+            "latencyMs": 19756,
+            "responsePreview": "It's common to experience a headache from time to time, but if it persists or worsens over several days, consider speaking with a healthcare professional for advice on managing your symptoms and explo",
+            "historyUsed": 1
           },
           {
             "name": "memory_window_progression",
             "status": 200,
             "pass": true,
-            "historyUsed": 1
+            "historyUsed": 3
           },
           {
             "name": "empty_message",
@@ -103,18 +104,18 @@
             "body": {
               "success": true,
               "data": {
-                "id": "69d21076383bd2c11b33899f",
-                "userId": "qa_user_1775374394292",
+                "id": "69d2b976e3d63633a2bc5e7a",
+                "userId": "qa_user_1775417668471",
                 "source": "upload",
                 "severity": "medium",
                 "medicines": [
                   {
-                    "medicineName": "",
-                    "dosage": "Paracetamol 500mg",
-                    "instructions": "1 tablet after food twice daily"
+                    "medicineName": "Paracetamol",
+                    "dosage": "500mg",
+                    "instructions": "after food twice daily"
                   }
                 ],
-                "createdAt": "2026-04-05T07:34:14.452Z"
+                "createdAt": "2026-04-05T19:35:18.856Z"
               }
             }
           },
@@ -125,9 +126,9 @@
             "body": {
               "success": false,
               "error": {
-                "code": "OCR_PDF_RENDER_UNAVAILABLE",
-                "message": "PDF OCR rendering is not available in this runtime. Use a sharp build with PDF support.",
-                "debug": "PDF OCR rendering is not available in this runtime. Use a sharp build with PDF support."
+                "code": "OCR_PROCESSING_FAILED",
+                "message": "OCR failed: pdfParse is not a function",
+                "debug": "OCR failed: pdfParse is not a function"
               }
             }
           },
@@ -166,8 +167,8 @@
           {
             "name": "ollama_call",
             "pass": true,
-            "latencyMs": 12867,
-            "preview": "\"It's important to monitor your symptoms closely. If you experience difficulty breathing, chest pain, or persistent fever, please seek medical attention immediately.\""
+            "latencyMs": 10930,
+            "preview": "```\nIt's good to monitor your health regularly. While a persistent or worsening cough should be checked by a doctor, if you currently feel well aside from this symptom and do not exhibit any signs of "
           },
           {
             "name": "timeout_handling",
@@ -222,7 +223,7 @@
         "pass": true,
         "detail": {
           "promptLength": 1935,
-          "llmLatencyMs": 11035,
+          "llmLatencyMs": 4983,
           "notes": {
             "memoryWindowConfig": 5,
             "llmTokenLimit": 120
@@ -256,7 +257,7 @@
     }
   ],
   "summary": {
-    "passed": 6,
-    "failed": 2
+    "passed": 7,
+    "failed": 1
   }
 }

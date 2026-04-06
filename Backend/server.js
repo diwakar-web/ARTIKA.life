@@ -8,8 +8,6 @@ const morgan = require("morgan");
 const connectDB = require("./config/db");
 const chatRoutes = require("./routes/chat.routes");
 const uploadRoutes = require("./routes/upload.routes");
-const telegramRoutes = require("./routes/telegram.routes");
-const { initReminderScheduler } = require("./services/reminder.service");
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
@@ -41,7 +39,6 @@ app.get("/health", (_req, res) => {
 
 app.use("/", chatRoutes);
 app.use("/", uploadRoutes);
-app.use("/webhook/telegram", telegramRoutes);
 
 app.use((_req, res) => {
   return res.status(404).json({
@@ -75,7 +72,6 @@ async function startServer() {
   try {
     // Ensure DB is ready before accepting traffic.
     await connectDB();
-    initReminderScheduler();
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

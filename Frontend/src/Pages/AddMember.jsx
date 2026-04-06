@@ -251,24 +251,33 @@ export default function AddMember() {
 
         if (reminderId) {
           // Update existing reminder
-          await fetch(`${API_BASE}/api/reminders/${reminderId}`, {
+          const rRes = await fetch(`${API_BASE}/api/reminders/${reminderId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reminderData),
           });
+          if (!rRes.ok) {
+            const rJson = await rRes.json();
+            throw new Error(rJson.message || "Failed to update medication reminder");
+          }
         } else {
           // Create new reminder
-          await fetch(`${API_BASE}/api/reminders`, {
+          const rRes = await fetch(`${API_BASE}/api/reminders`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reminderData),
           });
+          if (!rRes.ok) {
+            const rJson = await rRes.json();
+            throw new Error(rJson.message || "Failed to create medication reminder");
+          }
         }
       } else if (reminderId) {
         // If they cleared the medication info, delete the existing reminder
-        await fetch(`${API_BASE}/api/reminders/${reminderId}`, {
+        const rRes = await fetch(`${API_BASE}/api/reminders/${reminderId}`, {
           method: "DELETE",
         });
+        if (!rRes.ok) throw new Error("Failed to delete medication reminder");
       }
 
       alert(editMember ? "Member Updated!" : "Member Added!");
@@ -452,6 +461,7 @@ export default function AddMember() {
                     }
                   />
                 </div>
+
               </div>
             </div>
 

@@ -48,7 +48,15 @@ const reminderSchema = new mongoose.Schema(
       type: [String], // Each entry is "HH:MM" format (e.g. "08:00")
       validate: {
         validator: function (arr) {
-          return arr.length === this.frequency;
+          // For new documents, 'this' refers to the document.
+          // For updates, the update object might be in this.getUpdate().
+          let freq = this.frequency;
+          if (freq === undefined && this.getUpdate) {
+            const update = this.getUpdate();
+            freq = update.frequency || (update.$set && update.$set.frequency);
+          }
+          if (freq === undefined) return true; // Skip validation if frequency not provided
+          return arr.length === Number(freq);
         },
         message: "Number of times must match the frequency",
       },

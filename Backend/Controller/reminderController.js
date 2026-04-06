@@ -68,9 +68,27 @@ const getAllReminders = async (req, res) => {
  */
 const updateReminder = async (req, res) => {
   try {
+    const { id } = req.params;
+    console.log(`Updating reminder ${id}`);
+
+    const allowedFields = ["medication", "duration", "frequency", "times"];
+    const updateData = {};
+
+    allowedFields.forEach(field => {
+      if (req.body[field] !== undefined) {
+        updateData[field] = req.body[field];
+      }
+    });
+
+    // Ensure numeric types
+    if (updateData.duration) updateData.duration = parseInt(updateData.duration);
+    if (updateData.frequency) updateData.frequency = parseInt(updateData.frequency);
+
+    console.log("Reminder Update data:", JSON.stringify(updateData, null, 2));
+
     const updated = await Reminder.findByIdAndUpdate(
-      req.params.id,
-      req.body,
+      id,
+      { $set: updateData },
       { new: true, runValidators: true }
     );
 
@@ -78,8 +96,10 @@ const updateReminder = async (req, res) => {
       return res.status(404).json({ success: false, message: "Reminder not found" });
     }
 
+    console.log(`Reminder ${id} updated successfully`);
     res.status(200).json({ success: true, message: "Reminder updated", data: updated });
   } catch (error) {
+    console.error("Update Reminder Error:", error);
     res.status(400).json({ success: false, message: error.message });
   }
 };

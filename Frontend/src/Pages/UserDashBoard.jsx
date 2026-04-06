@@ -27,6 +27,8 @@ export default function UserDashBoard() {
     return () => unsub();
   }, []);
 
+  const [remindersCount, setRemindersCount] = useState({});
+
   // 2. Fetch members from MongoDB whenever we know the user's email
   useEffect(() => {
     if (!currentUserEmail) return;
@@ -35,10 +37,39 @@ export default function UserDashBoard() {
       setLoading(true);
       try {
         const res = await fetch(
-          `${API_BASE}/api/members?userEmail=${encodeURIComponent(currentUserEmail)}`
+          `${API_BASE}/api/members?userEmail=${encodeURIComponent(currentUserEmail)}&t=${Date.now()}`
         );
         const json = await res.json();
-        if (json.success) setMembers(json.data);
+        if (json.success) {
+          const loadedMembers = json.data;
+          setMembers(loadedMembers);
+
+          // Fetch reminder counts based on actual prescribed times
+          const promises = loadedMembers.map(async (m) => {
+            try {
+              const rRes = await fetch(`${API_BASE}/api/reminders/member/${m._id}?t=${Date.now()}`);
+              const rJson = await rRes.json();
+              if (rJson.success) {
+                // Sum the actual number of overall reminder times across all medications (Days * Times per day)
+                const totalTimes = rJson.data.reduce((acc, curr) => {
+                  const timesPerDay = curr.times && Array.isArray(curr.times) ? curr.times.length : 0;
+                  const days = curr.duration ? parseInt(curr.duration) || 1 : 1;
+                  return acc + (timesPerDay * days);
+                }, 0);
+                
+                return { id: m._id, count: totalTimes };
+              }
+            } catch (e) {
+              console.error("Reminder fetch error:", e);
+            }
+            return { id: m._id, count: 0 };
+          });
+          
+          const counts = await Promise.all(promises);
+          const countMap = {};
+          counts.forEach(c => { countMap[c.id] = c.count; });
+          setRemindersCount(countMap);
+        }
         else console.error("Failed to load members:", json.message);
       } catch (err) {
         console.error("Network error fetching members:", err);
@@ -49,6 +80,7 @@ export default function UserDashBoard() {
 
     fetchMembers();
   }, [currentUserEmail]);
+
 
   // 3. Delete via API, then remove from local state
   const deleteMember = async (id) => {
@@ -93,6 +125,19 @@ export default function UserDashBoard() {
           <p>
             <strong>Age:</strong> {member.age} yrs ({member.category})
           </p>
+          <div className="reminders-badge" style={{ 
+            marginTop: "8px", 
+            marginBottom: "4px",
+            background: "rgba(99, 102, 241, 0.15)", 
+            padding: "4px 8px", 
+            borderRadius: "6px",
+            fontSize: "0.80rem",
+            color: "#a5b4fc",
+            display: "inline-block",
+            border: "1px solid rgba(99, 102, 241, 0.3)"
+          }}>
+            💊 Active Reminders: <strong>{remindersCount[member._id] || 0}</strong>
+          </div>
           {/* Growth Centre Info for Kids */}
           {(member.category === "Kid" || member.category === "Newborn") &&
             member.growthData &&

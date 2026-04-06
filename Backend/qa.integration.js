@@ -9,9 +9,9 @@ const sharp = require("sharp");
 const mongoose = require("mongoose");
 
 const connectDB = require("./config/db");
-const Chat = require("./models/chat.model");
-const Prescription = require("./models/prescription.model");
-const { buildPrompt } = require("./utils/promptBuilder");
+const Chat = require("./Model/chat.model");
+const Prescription = require("./Model/prescription.model");
+const { buildPrompt } = require("./Utils/promptBuilder");
 const { callLLM } = require("./services/llm.service");
 
 const REQUIRED_ENV_KEYS = ["MONGODB_URI", "OLLAMA_BASE_URL", "OLLAMA_MODEL"];

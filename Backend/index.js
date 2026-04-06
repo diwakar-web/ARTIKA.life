@@ -7,6 +7,8 @@ const cors    = require("cors");
 const connectDB    = require("./DB/connect");
 const memberRoutes  = require("./Routes/memberRoutes");
 const reminderRoutes = require("./Routes/reminderRoutes");
+const chatRoutes = require("./Routes/chat.routes");
+const uploadRoutes = require("./Routes/upload.routes");
 const errorHandler = require("./MiddleWare/errorHandler");
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -37,6 +39,8 @@ app.get("/", (req, res) => {
 // ── API Routes ────────────────────────────────────────────────────────────────
 app.use("/api/members",   memberRoutes);   // All member endpoints
 app.use("/api/reminders", reminderRoutes); // All reminder endpoints
+app.use("/api/chat",      chatRoutes);     // Chatbot endpoints
+app.use("/api/upload",    uploadRoutes);   // OCR/Upload endpoints
 
 // ── 404 Handler ───────────────────────────────────────────────────────────────
 app.use((req, res) => {

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Member = require("../Model/Member");
+const Reminder = require("../Model/Reminder");
 const { uploadFile, deleteFile } = require("../Utils/cloudinary");
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -27,10 +28,14 @@ const addMember = async (req, res) => {
       address,
     } = req.body;
 
-    // Parse nested objects if sent as strings (via FormData)
-    let growthData = req.body.growthData ? (typeof req.body.growthData === "string" ? JSON.parse(req.body.growthData) : req.body.growthData) : null;
-    let vaccinations = req.body.vaccinations ? (typeof req.body.vaccinations === "string" ? JSON.parse(req.body.vaccinations) : req.body.vaccinations) : [];
-    let healthLocker = req.body.healthLocker ? (typeof req.body.healthLocker === "string" ? JSON.parse(req.body.healthLocker) : req.body.healthLocker) : [];
+    const safeParse = (str, fallback) => {
+      try { return typeof str === "string" ? JSON.parse(str) : (str || fallback); }
+      catch (e) { return fallback; }
+    };
+
+    let growthData = safeParse(req.body.growthData, null);
+    let vaccinations = safeParse(req.body.vaccinations, []);
+    let healthLocker = safeParse(req.body.healthLocker, []);
 
     if (!userEmail) {
       return res.status(400).json({ success: false, message: "userEmail is required" });
@@ -114,24 +119,50 @@ const getMemberById = async (req, res) => {
  */
 const updateMember = async (req, res) => {
   try {
+    const { id } = req.params;
     const { userEmail, category, name } = req.body;
 
-    const member = await Member.findById(req.params.id);
+    console.log(`Updating member ${id} for user ${userEmail}`);
+
+    const member = await Member.findById(id);
     if (!member) {
       return res.status(404).json({ success: false, message: "Member not found" });
     }
 
-    // Parse nested objects if sent as strings
-    if (req.body.growthData && typeof req.body.growthData === "string") req.body.growthData = JSON.parse(req.body.growthData);
-    if (req.body.vaccinations && typeof req.body.vaccinations === "string") req.body.vaccinations = JSON.parse(req.body.vaccinations);
+    const safeParse = (str, fallback) => {
+      try { return typeof str === "string" ? JSON.parse(str) : (str || fallback); }
+      catch (e) { return fallback; }
+    };
+
+    // Prepare update object with only valid fields
+    const updateData = {};
+    const allowedFields = [
+      "name", "relation", "dob", "age", "sex", "category",
+      "phoneCountryCode", "phoneNumber", "address"
+    ];
+
+    allowedFields.forEach(field => {
+      if (req.body[field] !== undefined) {
+        updateData[field] = req.body[field];
+      }
+    });
+
+    // Handle nested fields
+    if (req.body.growthData !== undefined) updateData.growthData = safeParse(req.body.growthData, null);
+    if (req.body.vaccinations !== undefined) updateData.vaccinations = safeParse(req.body.vaccinations, []);
+    if (req.body.healthLocker !== undefined) updateData.healthLocker = safeParse(req.body.healthLocker, []);
 
     // Enforce category-specific rules on update too
-    if (category && !["Kid", "Newborn"].includes(category)) {
-      req.body.growthData = null;
+    const finalCategory = updateData.category || member.category;
+    if (finalCategory && !["Kid", "Newborn"].includes(finalCategory)) {
+      updateData.growthData = null;
     }
-    if (category && category !== "Newborn") {
-      req.body.vaccinations = [];
+    if (finalCategory && finalCategory !== "Newborn") {
+      updateData.vaccinations = [];
     }
+
+    // Ensure numeric types
+    if (updateData.age !== undefined) updateData.age = parseInt(updateData.age);
 
     // ── Handle Cloudinary Photo Upload (Update) ──────────────────
     if (req.file) {
@@ -144,24 +175,28 @@ const updateMember = async (req, res) => {
         await deleteFile(member.photoLink);
       }
       
-      req.body.photoLink = await uploadFile(req.file, folderPath);
+      updateData.photoLink = await uploadFile(req.file, folderPath);
     }
 
     // Only allow updating your own members if userEmail is provided
     const filter = userEmail
-      ? { _id: req.params.id, userEmail: userEmail.toLowerCase().trim() }
-      : { _id: req.params.id };
+      ? { _id: id, userEmail: userEmail.toLowerCase().trim() }
+      : { _id: id };
+
+    console.log("Update Data:", JSON.stringify(updateData, null, 2));
 
     const updated = await Member.findOneAndUpdate(
       filter,
-      req.body,
+      { $set: updateData },
       { new: true, runValidators: true }
     );
 
     if (!updated) {
+      console.warn(`Update failed for member ${id}: Access denied or record deleted`);
       return res.status(404).json({ success: false, message: "Access denied or record deleted" });
     }
 
+    console.log(`Member ${id} updated successfully`);
     res.status(200).json({ success: true, message: "Member updated successfully", data: updated });
   } catch (error) {
     console.error("Update Member Error:", error);
@@ -199,7 +234,10 @@ const deleteMember = async (req, res) => {
       }
     }
 
-    res.status(200).json({ success: true, message: "Member and all associated files deleted successfully" });
+    // 3. Delete All Associated Medication Reminders
+    await Reminder.deleteMany({ memberId: req.params.id });
+
+    res.status(200).json({ success: true, message: "Member and all associated files/reminders deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

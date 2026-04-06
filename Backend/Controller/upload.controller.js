@@ -1,7 +1,7 @@
-const Prescription = require("../models/prescription.model");
+const Prescription = require("../Model/prescription.model");
 const { extractTextFromImage } = require("../services/ocr.service");
 const { callLLM, callLLMStream } = require("../services/llm.service");
-const { buildPrescriptionExtractionPrompt } = require("../utils/promptBuilder");
+const { buildPrescriptionExtractionPrompt } = require("../Utils/promptBuilder");
 
 const ALLOWED_UPLOAD_MIME_TYPES = new Set([
   "image/jpeg",

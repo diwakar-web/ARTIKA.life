@@ -1,7 +1,7 @@
-const User = require("../models/user.model");
+const User = require("../Model/user.model");
 const { getRecentMessages, saveConversation } = require("../services/memory.service");
 const { callLLM } = require("../services/llm.service");
-const { buildPrompt } = require("../utils/promptBuilder");
+const { buildPrompt } = require("../Utils/promptBuilder");
 
 // Lightweight keyword-based triage level for UI signaling.
 function classifySeverity(text) {
@@ -41,6 +41,7 @@ function classifySeverity(text) {
 async function chatController(req, res, next) {
   try {
     const { userId, message } = req.body;
+    console.log(`[Chat] Message from ${userId}: "${message}"`);
 
     if (!userId || !String(userId).trim()) {
       return res.status(400).json({
@@ -78,6 +79,7 @@ async function chatController(req, res, next) {
     const memoryWindow = Number(process.env.MEMORY_WINDOW) || 5;
     // Only the latest 3-5 turns are used to keep context focused.
     const history = await getRecentMessages(cleanUserId, memoryWindow);
+    console.log(`[Chat] Found ${history.length} messages in history. Calling LLM...`);
     const prompt = buildPrompt(history, cleanMessage);
     const assistantReply = await callLLM(prompt);
 
