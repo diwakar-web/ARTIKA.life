@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import "./App.css";
+import "./MediPlay.css";
 
 const MEDICINES = [
   { label: "💊", color: "#5DCAA5", points: 10, good: true, name: "Pill" },
@@ -464,8 +464,8 @@ export default function App() {
   }, [loop, handleKeyDown, handleKeyUp]);
 
   return (
-    
-    <div className="app">
+    <div className="mediplay-page">
+      <div className="app">
       <div className="title-row">
         <h1 className="title">MediPlay</h1>
         <p className="subtitle">Collect medicine. Avoid danger.</p>
@@ -553,6 +553,7 @@ export default function App() {
           </span>
         ))}
       </div>
+    </div>
     </div>
   );
 }

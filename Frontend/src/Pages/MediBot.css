@@ -64,7 +64,7 @@
     pointer-events: none;
 }
 
-.chat-container-wrapper {
+.medibat-page .chat-container-wrapper {
     width: 92%;
     max-width: 900px;
     flex: 1;
@@ -90,7 +90,7 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.chat-header {
+.medibat-page .chat-header {
     padding: 24px 32px;
     background: rgba(255, 255, 255, 0.02);
     border-bottom: 1px solid var(--glass-border);
@@ -99,13 +99,13 @@
     align-items: center;
 }
 
-.bot-info {
+.medibat-page .bot-info {
     display: flex;
     align-items: center;
     gap: 16px;
 }
 
-.bot-avatar {
+.medibat-page .bot-avatar {
     width: 48px;
     height: 48px;
     background: var(--bot-gradient);
@@ -156,7 +156,7 @@
     box-shadow: 0 0 8px #7cff67;
 }
 
-.chat-messages {
+.medibat-page .chat-messages {
     flex: 1;
     overflow-y: auto;
     padding: 32px;
@@ -238,7 +238,7 @@
     font-weight: 500;
 }
 
-.chat-input-area {
+.medibat-page .chat-input-area {
     padding: 24px 32px;
     background: rgba(255, 255, 255, 0.015);
     border-top: 1px solid var(--glass-border);
@@ -247,7 +247,7 @@
     align-items: center;
 }
 
-.input-container {
+.medibat-page .input-container {
     flex: 1;
 }
 
@@ -289,7 +289,7 @@
     box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.5);
 }
 
-.bot-disclaimer {
+.medibat-page .bot-disclaimer {
     margin-top: 16px;
     color: rgba(255, 255, 255, 0.4);
     font-size: 0.75rem;
@@ -303,7 +303,7 @@
     border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.typing .dot {
+.medibat-page .typing .dot {
     height: 6px;
     width: 6px;
     background-color: #94a3b8;
@@ -312,12 +312,12 @@
     animation: typing-bounce 1.4s infinite ease-in-out both;
 }
 
-.mini-typing {
+.medibat-page .mini-typing {
     display: flex;
     gap: 2px;
 }
 
-.mini-typing .dot {
+.medibat-page .mini-typing .dot {
     height: 4px;
     width: 4px;
     background-color: #fff;
