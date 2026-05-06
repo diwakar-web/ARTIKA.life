@@ -19,6 +19,9 @@ const growthDataSchema = new mongoose.Schema(
       default: "",
     },
     allergies: { type: String, default: "" },      // comma-separated or free text
+    sleepTime: { type: String, default: "" },      // e.g. "8-10 hours"
+    foodIntake: { type: String, default: "" },     // e.g. "Healthy" or specific notes
+    activity: { type: String, default: "" },       // physical activity time
   },
   { _id: false } // no separate _id for sub-documents
 );

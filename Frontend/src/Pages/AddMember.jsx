@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Sprout, Syringe, PartyPopper, BarChart2, AlertTriangle, Lock, Trash2, Plus, Heart, User } from "lucide-react";
 import "./AddMember.css";
 import Header from "../Components/FixedComponents/Header";
 import Orb from "../Components/Backgrounds/Orb";
@@ -40,12 +41,15 @@ export default function AddMember() {
     height: editMember?.growthData?.height || "",
     bloodGroup: editMember?.growthData?.bloodGroup || "",
     allergies: editMember?.growthData?.allergies || "",
+    sleepTime: editMember?.growthData?.sleepTime || "",
+    foodIntake: editMember?.growthData?.foodIntake || "",
+    activity: editMember?.growthData?.activity || "",
   });
 
   const [reminderId, setReminderId] = useState(null);
 
   const [showGrowthCentre, setShowGrowthCentre] = useState(
-    !!(editMember?.growthData?.weight || editMember?.growthData?.height || editMember?.growthData?.bloodGroup || editMember?.growthData?.allergies)
+    !!(editMember?.growthData?.weight || editMember?.growthData?.height || editMember?.growthData?.bloodGroup || editMember?.growthData?.allergies || editMember?.growthData?.sleepTime || editMember?.growthData?.foodIntake || editMember?.growthData?.activity)
   );
   const [showVaccineTracker, setShowVaccineTracker] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
@@ -210,6 +214,9 @@ export default function AddMember() {
         height: formData.height ? parseFloat(formData.height) : null,
         bloodGroup: formData.bloodGroup || "",
         allergies: formData.allergies || "",
+        sleepTime: formData.sleepTime || "",
+        foodIntake: formData.foodIntake || "",
+        activity: formData.activity || "",
       };
       fd.append("growthData", JSON.stringify(gd));
     }
@@ -403,58 +410,58 @@ export default function AddMember() {
                       setFormData({ ...formData, phoneCountryCode: e.target.value })
                     }
                   >
-                    <option value="+91">🇮🇳 +91 (India)</option>
-                    <option value="+1">🇺🇸 +1 (USA)</option>
-                    <option value="+44">🇬🇧 +44 (UK)</option>
-                    <option value="+61">🇦🇺 +61 (Australia)</option>
-                    <option value="+81">🇯🇵 +81 (Japan)</option>
-                    <option value="+86">🇨🇳 +86 (China)</option>
-                    <option value="+49">🇩🇪 +49 (Germany)</option>
-                    <option value="+33">🇫🇷 +33 (France)</option>
-                    <option value="+39">🇮🇹 +39 (Italy)</option>
-                    <option value="+34">🇪🇸 +34 (Spain)</option>
-                    <option value="+7">🇷🇺 +7 (Russia)</option>
-                    <option value="+55">🇧🇷 +55 (Brazil)</option>
-                    <option value="+27">🇿🇦 +27 (South Africa)</option>
-                    <option value="+82">🇰🇷 +82 (South Korea)</option>
-                    <option value="+65">🇸🇬 +65 (Singapore)</option>
-                    <option value="+971">🇦🇪 +971 (UAE)</option>
-                    <option value="+966">🇸🇦 +966 (Saudi Arabia)</option>
-                    <option value="+92">🇵🇰 +92 (Pakistan)</option>
-                    <option value="+880">🇧🇩 +880 (Bangladesh)</option>
-                    <option value="+94">🇱🇰 +94 (Sri Lanka)</option>
-                    <option value="+977">🇳🇵 +977 (Nepal)</option>
-                    <option value="+1-242">🇧🇸 +1-242 (Bahamas)</option>
-                    <option value="+1-246">🇧🇧 +1-246 (Barbados)</option>
-                    <option value="+20">🇪🇬 +20 (Egypt)</option>
-                    <option value="+254">🇰🇪 +254 (Kenya)</option>
-                    <option value="+234">🇳🇬 +234 (Nigeria)</option>
-                    <option value="+358">🇫🇮 +358 (Finland)</option>
-                    <option value="+46">🇸🇪 +46 (Sweden)</option>
-                    <option value="+47">🇳🇴 +47 (Norway)</option>
-                    <option value="+45">🇩🇰 +45 (Denmark)</option>
-                    <option value="+31">🇳🇱 +31 (Netherlands)</option>
-                    <option value="+41">🇨🇭 +41 (Switzerland)</option>
-                    <option value="+48">🇵🇱 +48 (Poland)</option>
-                    <option value="+351">🇵🇹 +351 (Portugal)</option>
-                    <option value="+30">🇬🇷 +30 (Greece)</option>
-                    <option value="+90">🇹🇷 +90 (Turkey)</option>
-                    <option value="+62">🇮🇩 +62 (Indonesia)</option>
-                    <option value="+60">🇲🇾 +60 (Malaysia)</option>
-                    <option value="+63">🇵🇭 +63 (Philippines)</option>
-                    <option value="+66">🇹🇭 +66 (Thailand)</option>
-                    <option value="+84">🇻🇳 +84 (Vietnam)</option>
-                    <option value="+64">🇳🇿 +64 (New Zealand)</option>
-                    <option value="+1-876">🇯🇲 +1-876 (Jamaica)</option>
-                    <option value="+52">🇲🇽 +52 (Mexico)</option>
-                    <option value="+56">🇨🇱 +56 (Chile)</option>
-                    <option value="+54">🇦🇷 +54 (Argentina)</option>
-                    <option value="+57">🇨🇴 +57 (Colombia)</option>
-                    <option value="+51">🇵🇪 +51 (Peru)</option>
-                    <option value="+972">🇮🇱 +972 (Israel)</option>
-                    <option value="+98">🇮🇷 +98 (Iran)</option>
-                    <option value="+964">🇮🇶 +964 (Iraq)</option>
-                    <option value="+93">🇦🇫 +93 (Afghanistan)</option>
+                    <option value="+91">+91 (India)</option>
+                    <option value="+1">+1 (USA)</option>
+                    <option value="+44">+44 (UK)</option>
+                    <option value="+61">+61 (Australia)</option>
+                    <option value="+81">+81 (Japan)</option>
+                    <option value="+86">+86 (China)</option>
+                    <option value="+49">+49 (Germany)</option>
+                    <option value="+33">+33 (France)</option>
+                    <option value="+39">+39 (Italy)</option>
+                    <option value="+34">+34 (Spain)</option>
+                    <option value="+7">+7 (Russia)</option>
+                    <option value="+55">+55 (Brazil)</option>
+                    <option value="+27">+27 (South Africa)</option>
+                    <option value="+82">+82 (South Korea)</option>
+                    <option value="+65">+65 (Singapore)</option>
+                    <option value="+971">+971 (UAE)</option>
+                    <option value="+966">+966 (Saudi Arabia)</option>
+                    <option value="+92">+92 (Pakistan)</option>
+                    <option value="+880">+880 (Bangladesh)</option>
+                    <option value="+94">+94 (Sri Lanka)</option>
+                    <option value="+977">+977 (Nepal)</option>
+                    <option value="+1-242">+1-242 (Bahamas)</option>
+                    <option value="+1-246">+1-246 (Barbados)</option>
+                    <option value="+20">+20 (Egypt)</option>
+                    <option value="+254">+254 (Kenya)</option>
+                    <option value="+234">+234 (Nigeria)</option>
+                    <option value="+358">+358 (Finland)</option>
+                    <option value="+46">+46 (Sweden)</option>
+                    <option value="+47">+47 (Norway)</option>
+                    <option value="+45">+45 (Denmark)</option>
+                    <option value="+31">+31 (Netherlands)</option>
+                    <option value="+41">+41 (Switzerland)</option>
+                    <option value="+48">+48 (Poland)</option>
+                    <option value="+351">+351 (Portugal)</option>
+                    <option value="+30">+30 (Greece)</option>
+                    <option value="+90">+90 (Turkey)</option>
+                    <option value="+62">+62 (Indonesia)</option>
+                    <option value="+60">+60 (Malaysia)</option>
+                    <option value="+63">+63 (Philippines)</option>
+                    <option value="+66">+66 (Thailand)</option>
+                    <option value="+84">+84 (Vietnam)</option>
+                    <option value="+64">+64 (New Zealand)</option>
+                    <option value="+1-876">+1-876 (Jamaica)</option>
+                    <option value="+52">+52 (Mexico)</option>
+                    <option value="+56">+56 (Chile)</option>
+                    <option value="+54">+54 (Argentina)</option>
+                    <option value="+57">+57 (Colombia)</option>
+                    <option value="+51">+51 (Peru)</option>
+                    <option value="+972">+972 (Israel)</option>
+                    <option value="+98">+98 (Iran)</option>
+                    <option value="+964">+964 (Iraq)</option>
+                    <option value="+93">+93 (Afghanistan)</option>
                   </select>
                   <input
                     type="tel"
@@ -489,8 +496,8 @@ export default function AddMember() {
                         </svg>
                       )}
                     </span>
-                    <span className="growth-toggle-text">
-                      🌱 Fill details for Growth Centre
+                    <span className="growth-toggle-text" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Sprout size={18} color="#5DCAA5" /> Fill details for Growth Centre
                     </span>
                   </div>
                 </label>
@@ -516,19 +523,19 @@ export default function AddMember() {
                         </svg>
                       )}
                     </span>
-                    <span className="growth-toggle-text vaccine-toggle-text">
-                      💉 Record Data in Vaccination Tracker?
+                    <span className="growth-toggle-text vaccine-toggle-text" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <Syringe size={18} color="#85B7EB" /> Record Data in Vaccination Tracker?
                     </span>
                   </div>
                 </label>
 
                 {showVaccineTracker && (
                   <div className="vaccine-message">
-                    <span className="vaccine-message-emoji">🎉</span>
+                    <span className="vaccine-message-emoji"><PartyPopper size={24} color="#FAC775" /></span>
                     <p>Welcome to Artika.life!
                       Your newborn has been successfully added. From now on, we’ll take care of your child’s vaccination tracking, ensuring no important vaccine is ever missed. You’ll receive timely reminders directly on your WhatsApp.
                       You can check the complete vaccination schedule anytime on the Vaccination Tracker page.
-                      Your child’s health is now our priority. 💙!</p>
+                      Your child’s health is now our priority. <Heart size={14} color="#ff6b6b" fill="#ff6b6b" style={{ display: 'inline', verticalAlign: 'middle' }} />!</p>
                   </div>
                 )}
               </div>
@@ -538,7 +545,7 @@ export default function AddMember() {
             {isKidOrNewborn && showGrowthCentre && (
               <div className="growth-centre-section">
                 <div className="growth-centre-header">
-                  <span className="growth-centre-icon">📊</span>
+                  <span className="growth-centre-icon"><BarChart2 size={20} color="#007bff" /></span>
                   <h3>Growth Centre Details</h3>
                 </div>
                 <div className="growth-grid">
@@ -584,6 +591,39 @@ export default function AddMember() {
                       <option value="O+">O+</option>
                       <option value="O-">O-</option>
                     </select>
+                  </div>
+                  <div className="growth-field">
+                    <label>Sleep Timing</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 8-10 hours"
+                      value={formData.sleepTime}
+                      onChange={(e) =>
+                        setFormData({ ...formData, sleepTime: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="growth-field">
+                    <label>Food Intake</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 3 meals, fruits"
+                      value={formData.foodIntake}
+                      onChange={(e) =>
+                        setFormData({ ...formData, foodIntake: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="growth-field">
+                    <label>Physical Activity</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 2 hours daily"
+                      value={formData.activity}
+                      onChange={(e) =>
+                        setFormData({ ...formData, activity: e.target.value })
+                      }
+                    />
                   </div>
                   <div className="growth-field growth-field-full">
                     <label>Allergies</label>
@@ -646,8 +686,8 @@ export default function AddMember() {
             </div>
 
             {submitError && (
-              <p style={{ color: "#ff6b6b", marginBottom: "0.75rem", fontWeight: 500 }}>
-                ⚠ {submitError}
+              <p style={{ color: "#ff6b6b", marginBottom: "0.75rem", fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <AlertTriangle size={16} /> {submitError}
               </p>
             )}
             <button type="submit" className="submit-btn" disabled={submitting}>
@@ -661,7 +701,7 @@ export default function AddMember() {
       {!currentUserEmail && !authLoading && (
         <div className="login-overlay">
           <div className="login-overlay-card">
-            <div className="lock-icon">🔒</div>
+            <div className="lock-icon"><Lock size={40} color="#6366f1" /></div>
             <h2>Authentication Required</h2>
             <p>You must log in before adding a member and experiencing all features of Artika.life</p>
             <button className="login-redirect-btn" onClick={() => navigate("/login")}>

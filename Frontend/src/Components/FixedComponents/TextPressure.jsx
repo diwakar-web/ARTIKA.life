@@ -53,6 +53,7 @@ const TextPressure = ({
   const [fontSize, setFontSize] = useState(minFontSize);
   const [scaleY, setScaleY] = useState(1);
   const [lineHeight, setLineHeight] = useState(1);
+  const charRectsRef = useRef([]);
 
   const chars = text.split('');
 
@@ -69,14 +70,6 @@ const TextPressure = ({
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
-
-    if (containerRef.current) {
-      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-      mouseRef.current.x = left + width / 2;
-      mouseRef.current.y = top + height / 2;
-      cursorRef.current.x = mouseRef.current.x;
-      cursorRef.current.y = mouseRef.current.y;
-    }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -105,14 +98,25 @@ const TextPressure = ({
         setScaleY(yRatio);
         setLineHeight(yRatio);
       }
+      
+      // Cache character rects
+      charRectsRef.current = spansRef.current.map(span => {
+        if (!span) return null;
+        const rect = span.getBoundingClientRect();
+        return {
+          center: {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2
+          }
+        };
+      });
     });
   }, [chars.length, minFontSize, scale]);
 
   useEffect(() => {
-    const debouncedSetSize = debounce(setSize, 100);
-    debouncedSetSize();
-    window.addEventListener('resize', debouncedSetSize);
-    return () => window.removeEventListener('resize', debouncedSetSize);
+    const observer = new ResizeObserver(() => setSize());
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, [setSize]);
 
   useEffect(() => {
@@ -121,19 +125,14 @@ const TextPressure = ({
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
       mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
 
-      if (titleRef.current) {
+      if (titleRef.current && charRectsRef.current.length > 0) {
         const titleRect = titleRef.current.getBoundingClientRect();
         const maxDist = titleRect.width / 2;
 
-        spansRef.current.forEach(span => {
-          if (!span) return;
+        spansRef.current.forEach((span, i) => {
+          if (!span || !charRectsRef.current[i]) return;
 
-          const rect = span.getBoundingClientRect();
-          const charCenter = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2
-          };
-
+          const charCenter = charRectsRef.current[i].center;
           const d = dist(mouseRef.current, charCenter);
 
           const wdth = width ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
@@ -157,7 +156,7 @@ const TextPressure = ({
 
     animate();
     return () => cancelAnimationFrame(rafId);
-  }, [width, weight, italic, alpha]);
+  }, [width, weight, italic, alpha, text]);
 
   const styleElement = useMemo(() => {
     return (

@@ -37,8 +37,9 @@ const ScrollReveal = ({
     if (!el) return;
 
     const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
+    const triggers = [];
 
-    gsap.fromTo(
+    const mainTrigger = gsap.fromTo(
       el,
       { transformOrigin: '0% 50%', rotate: baseRotation },
       {
@@ -53,10 +54,11 @@ const ScrollReveal = ({
         }
       }
     );
+    triggers.push(mainTrigger.scrollTrigger);
 
     const wordElements = el.querySelectorAll('.word');
 
-    gsap.fromTo(
+    const opacityTrigger = gsap.fromTo(
       wordElements,
       { opacity: baseOpacity, willChange: 'opacity' },
       {
@@ -72,9 +74,10 @@ const ScrollReveal = ({
         }
       }
     );
+    triggers.push(opacityTrigger.scrollTrigger);
 
     if (enableBlur) {
-      gsap.fromTo(
+      const blurTrigger = gsap.fromTo(
         wordElements,
         { filter: `blur(${blurStrength}px)` },
         {
@@ -90,10 +93,13 @@ const ScrollReveal = ({
           }
         }
       );
+      triggers.push(blurTrigger.scrollTrigger);
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      triggers.forEach(trigger => {
+        if (trigger) trigger.kill();
+      });
     };
   }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength]);
 
