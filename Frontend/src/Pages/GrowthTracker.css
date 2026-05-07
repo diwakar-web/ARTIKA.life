@@ -1,4 +1,331 @@
-.content {
+.growth-tracker-container {
+  min-height: 100vh;
+  width: 100%;
+  background: #03080f;
+  color: white;
   position: relative;
-  z-index: 1;
+}
+
+.growth-tracker-container .content {
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.growth-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+.report-branding {
+  display: none !important; /* Hidden on screen, shown in PDF via onclone */
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 20px;
+}
+
+.report-logo {
+  height: 200px;
+  width: auto;
+  margin-bottom: 20px;
+}
+
+.report-title {
+  font-size: 20px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: 900;
+}
+
+.full-screen-card {
+  width: 98%;
+  max-width: 1600px;
+}
+
+.member-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 20px;
+}
+
+.member-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #ff4d4d;
+}
+
+.member-basic-info h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #fff;
+}
+
+.relation-badge {
+  background: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.bmi-pill {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.bmi-val {
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+
+.bmi-lbl {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── Charts Main Grid ────────────────────────────────── */
+.charts-main-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.chart-wrapper {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 24px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.chart-wrapper:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.bmi-comparison {
+  grid-column: 1 / -1;
+}
+
+.chart-wrapper h3 {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.pie-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 220px;
+}
+
+.pie-label-center {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.plc-val {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.plc-lbl {
+  font-size: 10px;
+  color: #444;
+  text-transform: uppercase;
+}
+
+/* ── Raw Details Banner ──────────────────────────────── */
+.raw-details-banner {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 20px 40px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rb-item {
+  font-size: 13px;
+  color: #777;
+}
+
+.rb-item strong {
+  color: #fff;
+  margin-right: 8px;
+}
+
+/* ── Health Score ────────────────────────────────────── */
+.health-score-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(255, 77, 77, 0.05) 0%, rgba(0, 123, 255, 0.03) 100%);
+  padding: 30px 45px;
+  border-radius: 30px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hs-left h3 {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.hs-left p {
+  color: #555;
+  font-size: 12px;
+  margin: 0;
+}
+
+.hs-right {
+  width: 80px;
+  height: 80px;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.05);
+  stroke-width: 3.5;
+}
+
+.circle {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke: #ff4d4d;
+}
+
+.percentage {
+  fill: #fff;
+  font-size: 0.5em;
+  font-weight: 900;
+  text-anchor: middle;
+}
+
+/* ── Score Ribbon ────────────────────────────────────── */
+.score-ribbon {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  background: rgba(255, 255, 255, 0.01);
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.ribbon-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ribbon-item span {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 800;
+  font-size: 10px;
+}
+
+.ribbon-item.green span { background: rgba(46, 213, 115, 0.1); color: #2ed573; border: 1px solid rgba(46, 213, 115, 0.2); }
+.ribbon-item.orange span { background: rgba(255, 165, 2, 0.1); color: #ffa502; border: 1px solid rgba(255, 165, 2, 0.2); }
+.ribbon-item.red span { background: rgba(255, 71, 87, 0.1); color: #ff4757; border: 1px solid rgba(255, 71, 87, 0.2); }
+
+/* ── Action Row ──────────────────────────────────────── */
+.action-row {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary, .btn-secondary {
+  flex: 1;
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #888;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.download-btn {
+  background: rgba(46, 213, 115, 0.1);
+  color: #2ed573 !important;
+  border: 1px solid rgba(46, 213, 115, 0.3) !important;
+}
+
+.download-btn:hover {
+  background: #2ed573;
+  color: #fff !important;
+  box-shadow: 0 10px 20px rgba(46, 213, 115, 0.2);
+}
+
+.btn-primary:hover { opacity: 0.9; }
+
+@media (max-width: 600px) {
+  .member-header { flex-direction: column; text-align: center; }
+  .bmi-pill { margin: 15px 0 0 0; width: 100%; }
+  .action-row { flex-direction: column; }
+}
+
+@media print {
+  .growth-card { width: 100% !important; background: #fff !important; color: #000 !important; }
+  header, .action-row { display: none !important; }
 }

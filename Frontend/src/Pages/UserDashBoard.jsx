@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { User, Pill, Sprout, Clipboard, Plus, BarChart2 } from "lucide-react";
 import "./UserDashBoard.css";
 import Header from "../Components/FixedComponents/Header";
 import Orb from "../Components/Backgrounds/Orb";
@@ -130,7 +131,7 @@ export default function UserDashBoard() {
         className="card-photo"
         style={{ backgroundImage: `url(${member.photoLink})` }}
       >
-        {!member.photoLink && "👤"}
+        {!member.photoLink && <User size={40} color="rgba(255,255,255,0.2)" />}
       </div>
       <div className="card-info">
         <h3>{member.name}</h3>
@@ -147,10 +148,12 @@ export default function UserDashBoard() {
             borderRadius: "6px",
             fontSize: "0.80rem",
             color: "#a5b4fc",
-            display: "inline-block",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
             border: "1px solid rgba(99, 102, 241, 0.3)"
           }}>
-            💊 Active Reminders: <strong>{remindersCount[member._id] || 0}</strong>
+            <Pill size={14} /> Active Reminders: <strong>{remindersCount[member._id] || 0}</strong>
           </div>
           {/* Growth Centre Info for Kids */}
           {(member.category === "Kid" || member.category === "Newborn") &&
@@ -160,7 +163,9 @@ export default function UserDashBoard() {
               member.growthData.bloodGroup ||
               member.growthData.allergies) && (
               <div className="growth-info">
-                <p className="growth-info-title">🌱 Growth Centre</p>
+                <p className="growth-info-title" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Sprout size={14} /> Growth Centre
+                </p>
                 {member.growthData.weight && (
                   <p><strong>Weight:</strong> {member.growthData.weight} kg</p>
                 )}
@@ -188,6 +193,14 @@ export default function UserDashBoard() {
             onClick={() => navigate("/vaccine", { state: { member } })}
           >
             Tracker
+          </button>
+        )}
+        {(member.category === "Kid" || member.category === "Newborn") && (
+          <button
+            className="tracker-btn growth-btn"
+            onClick={() => navigate("/growth", { state: { member } })}
+          >
+            Growth
           </button>
         )}
         <button
@@ -220,9 +233,7 @@ export default function UserDashBoard() {
           <h1>Family Members</h1>
           <div className="button-row">
             <button className="add-btn" onClick={() => navigate("/add")}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 2V14M2 8H14" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
-              </svg>
+              <Plus size={16} strokeWidth={3} />
               Add New Member
             </button>
           </div>
@@ -234,7 +245,7 @@ export default function UserDashBoard() {
             <p style={{ margin: 0 }}>
               Go to our Telegram bot <a href="https://t.me/Artikalife_bot" target="_blank" rel="noopener noreferrer" style={{color: "#fff", textDecoration: "underline"}}>@Artikalife_bot</a> and send the following activation command:
               <br/>
-              <strong style={{ fontSize: "1.2rem", background: "rgba(0,0,0,0.5)", padding: "5px 10px", borderRadius: "4px", display: "inline-block", marginTop: "10px", letterSpacing: "1px", cursor: "pointer", border: "1px solid rgba(255,255,255,0.2)" }} title="Copy to clipboard" onClick={() => {navigator.clipboard.writeText('/start ' + activationCode); alert('Copied to clipboard!')}}>/start {activationCode} 📋</strong>
+              <strong style={{ fontSize: "1.2rem", background: "rgba(0,0,0,0.5)", padding: "5px 10px", borderRadius: "4px", display: "inline-block", marginTop: "10px", letterSpacing: "1px", cursor: "pointer", border: "1px solid rgba(255,255,255,0.2)" }} title="Copy to clipboard" onClick={() => {navigator.clipboard.writeText('/start ' + activationCode); alert('Copied to clipboard!')}}>/start {activationCode} <Clipboard size={16} style={{ marginLeft: 6, verticalAlign: 'middle' }} /></strong>
             </p>
           </div>
         )}

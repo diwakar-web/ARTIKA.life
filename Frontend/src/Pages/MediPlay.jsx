@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import "./MediPlay.css";
-
+import Header from "../Components/FixedComponents/Header"
 const MEDICINES = [
   { label: "💊", color: "#5DCAA5", points: 10, good: true, name: "Pill" },
   { label: "💉", color: "#85B7EB", points: 15, good: true, name: "Injection" },
@@ -347,9 +347,10 @@ export default function App() {
       }
 
       // Draw item
-      ctx.font = `${item.size}px serif`;
+      ctx.font = `bold ${item.size - 10}px sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
+      ctx.fillStyle = item.color;
       ctx.fillText(item.label, item.x, item.y);
       return true;
     });
@@ -465,6 +466,7 @@ export default function App() {
 
   return (
     <div className="mediplay-page">
+      <Header/>
       <div className="app">
       <div className="title-row">
         <h1 className="title">MediPlay</h1>
@@ -521,10 +523,10 @@ export default function App() {
           <div className="overlay">
             <div className="overlay-box">
               <p className="over-quote">{getRandomQuote()}</p>
-              <p className="over-title">Game Over</p>
+              <h1 className="over-title">💀 Game Over</h1>
               <p className="over-score">Score: {ui.score}</p>
               {ui.score >= ui.hiScore && ui.score > 0 && (
-                <p className="over-hi">New High Score!</p>
+                <p className="over-hi">🏆 New High Score! 🏆</p>
               )}
               <button className="btn" onClick={startGame}>Play Again</button>
             </div>

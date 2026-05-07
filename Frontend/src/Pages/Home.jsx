@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import diwakar from "../assets/diwakar.png"
 import dhruv from "../assets/dhruv.png"
 import kavya from "../assets/kavya.png"
-import CircularGallery from '../Components/FixedComponents/CircilarGallery';
+import CircularGallery from '../Components/FixedComponents/CircularGallery';
 import TextPressure from '../Components/FixedComponents/TextPressure';
 
 export default function Home() {
@@ -30,24 +30,24 @@ export default function Home() {
             navigate("/login");
         }
     };
-    
+
     const items = [
         {
             image: diwakar,
-            title: "Diwakar Nagar",
-            subtitle: "MERN Developer",
-            handle: "@diwakar_nagar01",
-            borderColor: "#3B82F6",
-            gradient: "linear-gradient(145deg, #3B82F6, #000)",
-            url: "https://github.com/diwakar-web"
+            title: "Diwakar",
+            subtitle: "Founder & Lead Dev",
+            handle: "@diwakar_web",
+            borderColor: "#00d2ffaa",
+            gradient: "linear-gradient(145deg, #00d2ffaa, #000)",
+            url: "https://www.linkedin.com/in/diwakar-kumar-a6b107251/"
         },
         {
             image: dhruv,
             title: "Dhruv Rai",
-            subtitle: "Backend Engineer",
+            subtitle: "AI Specialist",
             handle: "@dhruv_rai",
-            borderColor: "#10B981",
-            gradient: "linear-gradient(180deg, #10B981, #000)",
+            borderColor: "#7cff67ff",
+            gradient: "linear-gradient(145deg, #7cff67ff, #000)",
             url: "https://www.linkedin.com/in/dhruv-rai-2432a421b/"
         },
         {
@@ -58,22 +58,25 @@ export default function Home() {
             borderColor: "#f63b5aff",
             gradient: "linear-gradient(145deg, #f63b64ff, #000)",
             url: "https://www.linkedin.com/in/kavya-nagotra-88a04528b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
-        }
+        },
     ];
 
     return (
         <div className="home-containerpage">
-            <Aurora
-                colorStops={["#7cff67", "#B19EEF", "#5227FF"]}
-                blend={0.25}
-                amplitude={1.0}
-                speed={1}
-            />
+            <div className="Aurora_container">
+                <Aurora
+                    colorStops={["#7cff67", "#B19EEF", "#5227FF"]}
+                    blend={0.5}
+                    amplitude={1.0}
+                    speed={0.5}
+                />
+            </div>
+
             <div className="content">
                 <Header />
-                <div className='main_section'>
-                    <div className='sec1 sec'>
 
+                <section className='main_section'>
+                    <div className='sec1 sec'>
                         <div className='Written'>
                             <p className='para'>
                                 AI-POWERED FAMILY HEALTH & CARE PLATFORM
@@ -83,28 +86,25 @@ export default function Home() {
                                     text="One Platform for
                                 Smarter Everyday
                                 Health Management"
-                                    className="text-2xl font-semibold text-center"
+                                    className="custom-class"
                                     delay={50}
-                                    duration={1.25}
-                                    ease="power3.out"
-                                    splitType="chars"
-                                    from={{ opacity: 0, y: 40 }}
-                                    to={{ opacity: 1, y: 0 }}
-                                    threshold={0.1}
-                                    rootMargin="-100px"
-                                    textAlign="right"
+                                    animationFrom={{ opacity: 0, transform: 'translate3d(0,50px,0)' }}
+                                    animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+                                    easing="easeOutCubic"
+                                    threshold={0.2}
+                                    rootMargin="-50px"
                                     onLetterAnimationComplete={handleAnimationComplete}
-                                    showCallback
                                 />
                             </h1>
+                            <p>Artika empowers families with AI-driven health insights, seamless record management, and playful wellness tools, all in one place.</p>
                         </div>
+
                         <div className='Buttons'>
-                            <button onClick={handleGetStarted}>Get Started</button>
-                            <button onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })}>
-                                Explore Features
-                            </button>
+                            <button className='type1' onClick={handleGetStarted}>Get Started</button>
+                            <button className='type2'>Learn More</button>
                         </div>
                     </div>
+
                     <div className='sec2 sec'>
                         <CardSwap
                             cardDistance={20}
@@ -138,28 +138,28 @@ export default function Home() {
                             </Card>
                         </CardSwap>
                     </div>
+                </section>
 
-                </div>
                 <div className='Numbers_section'>
                     <CurvedLoop
-                        marqueeText="ARTIKA.life ✦ ARTIKA.life ✦ ARTIKA.life ✦ ARTIKA.life ✦ ARTIKA.life ✦"
-                        speed={2}
-                        curveAmount={200}
-                        direction="right"
-                        interactive
-                        className="custom-text-style"
+                        marqueeText="ARTIKA.life • ARTIKA.life • ARTIKA.life •  "
+                        speed={1.5}
+                        curveAmount={80}
+                        direction="left"
                     />
                 </div>
+
                 <div className='numbers'>
                     <ScrollReveal
-                        baseOpacity={0.5}
-                        enableBlur
-                        baseRotation={3}
-                        blurStrength={5}>
-                        12300000+ families manage doctors, medicines, child care, and emergencies using multiple disconnected tools, leading to 26,00,000+ missed vaccinations and 1,80,00,000+ missed medicine doses every year.
-                        With 5,40,00,000+ smartphone users and 80,00,000+ daily health searches, ARTIKA unifies care into one intelligent platform for family health, prevention, and emergency readiness.
+                        baseOpacity={0.1}
+                        enableBlur={true}
+                        baseRotation={5}
+                        blurStrength={10}
+                    >
+                        12300000+ families manage doctors, medicines, child care, and emergencies using multiple disconnected tools, leading to 26,00,000+ missed vaccinations and 1,80,00,000+ missed medicine doses every year. With 5,40,00,000+ smartphone users and 80,00,000+ daily health searches, ARTIKA unifies care into one intelligent platform for family health, prevention, and emergency readiness.
                     </ScrollReveal>
                 </div>
+
                 <div className='ribbon'>
                     <ScrollVelocity
                         texts={['ARTIKA.life', 'What We Offer!']}
@@ -168,7 +168,7 @@ export default function Home() {
                     />
                 </div>
 
-                <div className='features' id='features'>
+                <div className='features'>
                     <CircularGallery
                         bend={0}
                         borderRadius={0.05}
@@ -177,42 +177,32 @@ export default function Home() {
                     />
                 </div>
 
-
                 <div className='teambehind'>
                     <TextPressure
                         text="The Team Behind!"
-                        flex
+                        flex={true}
                         alpha={false}
                         stroke={false}
-                        width={70}
-                        weight
-                        italic
+                        width={true}
+                        weight={true}
+                        italic={true}
                         textColor="#ffffff"
-                        strokeColor="#5227FF"
-                        minFontSize={50}
+                        strokeColor="#ff0000"
+                        minFontSize={36}
                     />
                 </div>
+
                 <div className='team'>
                     <ChromaGrid
                         items={items}
-                        radius={300}
-                        damping={0.45}
-                        fadeOut={0.6}
-                        ease="power3.out"
+                        columns={3}
+                        rows={1}
+                        radius={200}
                     />
-
-
                 </div>
-                <div className='line'>
 
-                </div>
                 <Footer />
-                <div className='cpr'>
-                    ©2026 artika.life All rights reserved
-
-                </div>
             </div>
         </div>
     );
 }
-
