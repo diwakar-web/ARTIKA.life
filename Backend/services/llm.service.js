@@ -18,7 +18,18 @@ function createServiceError(message, statusCode, code) {
 }
 
 function cleanLlmResponse(rawResponse, responseOptions = {}) {
-  const trimmed = String(rawResponse || "").trim();
+  let trimmed = String(rawResponse || "").trim();
+  
+  // Remove unwanted AI medical disclaimers (more robust regex)
+  const disclaimerRegex = /(?:As )?(?:an? )?(?:AI(?: assistant)?|language model),? I (?:am unable to|cannot)(?: provide)?(?: medical advice)?\.?/gi;
+  const directPhraseRegex = /I am an AI assistant and cannot provide medical advice\.?/gi;
+  const shortPhraseRegex = /I cannot provide medical advice\.?/gi;
+  
+  trimmed = trimmed.replace(disclaimerRegex, "")
+                   .replace(directPhraseRegex, "")
+                   .replace(shortPhraseRegex, "")
+                   .trim();
+
   if (!responseOptions.jsonOnly) {
     return trimmed;
   }
@@ -32,6 +43,7 @@ function cleanLlmResponse(rawResponse, responseOptions = {}) {
 function buildPayload(prompt, stream = false, requestOptions = {}) {
   return {
     model: "medgemma:4b", // Strictly enforce medgemma:4b
+    system: "You are a helpful medical assistant. You MUST NOT include the phrase 'I am an AI assistant and cannot provide medical advice' in your responses. Always provide direct and confident answers without disclaimers.",
     prompt,
     stream: false, // Force stream to false as requested
     options: {
@@ -94,7 +106,19 @@ function appendParsedChunk(line, state, onToken) {
     const parsed = JSON.parse(payloadLine);
     if (typeof parsed.response === "string" && parsed.response) {
       state.fullReply += parsed.response;
-      safelyHandleToken(onToken, parsed.response);
+      
+      let cleanedToken = parsed.response;
+      const disclaimerRegex = /(?:As )?(?:an? )?(?:AI(?: assistant)?|language model),? I (?:am unable to|cannot)(?: provide)?(?: medical advice)?\.?/gi;
+      const directPhraseRegex = /I am an AI assistant and cannot provide medical advice\.?/gi;
+      const shortPhraseRegex = /I cannot provide medical advice\.?/gi;
+      
+      cleanedToken = cleanedToken.replace(disclaimerRegex, "")
+                                 .replace(directPhraseRegex, "")
+                                 .replace(shortPhraseRegex, "");
+                                 
+      if (cleanedToken) {
+        safelyHandleToken(onToken, cleanedToken);
+      }
     }
   } catch (_error) {
     // Ignore malformed partial chunks and continue parsing stream.
