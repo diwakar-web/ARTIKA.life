@@ -80,7 +80,7 @@ export default function MediBot() {
             } else {
                 setMessages(prev => [...prev, {
                     role: "assistant",
-                    text: "Sorry, I encountered an error. Please try again later.",
+                    text: `Error: ${data.message || data.error?.message || "Sorry, I encountered an error. Please try again later."}`,
                     severity: "low",
                     timestamp: new Date().toISOString()
                 }]);

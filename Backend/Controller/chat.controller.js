@@ -88,22 +88,11 @@ async function chatController(req, res, next) {
 
     // 2. RAG Context Retrieval
     const retrievedContexts = retrieveContext(cleanMessage);
-    if (retrievedContexts.length === 0) {
-      const fallbackMsg = "I don't have enough medical information to answer this.";
-      await saveConversation(cleanUserId, cleanMessage, fallbackMsg, "low");
-      return res.status(200).json({
-        success: true,
-        data: {
-          userId: cleanUserId,
-          response: fallbackMsg,
-          severity: "low",
-          historyUsed: 0,
-          timestamp: new Date().toISOString(),
-        },
-      });
-    }
-
-    const contextString = retrievedContexts.join("\n- ");
+    
+    // Provide a default empty state instead of blocking the AI if no context is found
+    const contextString = retrievedContexts.length > 0 
+      ? retrievedContexts.join("\n- ") 
+      : "Rely on your trained medical knowledge as no local context matched this query.";
 
     await User.updateOne(
       { userId: cleanUserId },

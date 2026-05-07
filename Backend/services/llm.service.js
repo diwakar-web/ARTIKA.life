@@ -1,10 +1,12 @@
 const axios = require("axios");
 
 const ollamaClient = axios.create({
-  baseURL: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
+  baseURL: process.env.OLLAMA_BASE_URL || "http://100.71.116.70:11434",
   timeout: Number(process.env.OLLAMA_TIMEOUT_MS) || 20000,
   headers: {
     "Content-Type": "application/json",
+    "Connection": "keep-alive",
+    "Accept": "application/json",
   },
 });
 
@@ -29,9 +31,9 @@ function cleanLlmResponse(rawResponse, responseOptions = {}) {
 
 function buildPayload(prompt, stream = false, requestOptions = {}) {
   return {
-    model: requestOptions.model || process.env.OLLAMA_MODEL || "phi3",
+    model: "medgemma:4b", // Strictly enforce medgemma:4b
     prompt,
-    stream,
+    stream: false, // Force stream to false as requested
     options: {
       num_predict: 120,
       temperature: 0.7,
@@ -45,21 +47,26 @@ function throwNormalizedLlmError(error) {
     throw error;
   }
 
-  if (error.code === "ECONNABORTED") {
-    throw createServiceError("LLM request timed out. Try again in a moment.", 504, "LLM_TIMEOUT");
+  if (error.code === "ECONNABORTED" || (error.message && error.message.includes("timeout"))) {
+    throw createServiceError("Remote AI Server request timed out. The Gaming PC might be off or Tailscale is disconnected. Try again later.", 504, "LLM_TIMEOUT");
+  }
+
+  if (error.code === 'ECONNREFUSED' || error.code === 'EHOSTUNREACH' || (error.message && error.message.includes("Network Error"))) {
+    throw createServiceError("Remote AI Server is unreachable. Ensure the Gaming PC is on and connected to Tailscale.", 503, "LLM_UNREACHABLE");
   }
 
   // Normalize upstream provider failures into API-friendly errors.
   if (error.response) {
+    const errorDetails = error.response.data && error.response.data.error ? error.response.data.error : '';
     throw createServiceError(
-      `Ollama request failed with status ${error.response.status}.`,
+      `Ollama request failed with status ${error.response.status}. ${errorDetails}`,
       502,
       "LLM_UPSTREAM_ERROR"
     );
   }
 
   throw createServiceError(
-    "Unable to connect to Ollama. Ensure Ollama is running locally.",
+    "Unable to connect to Ollama on the remote gaming PC. Ensure Tailscale is connected.",
     502,
     "LLM_UNREACHABLE"
   );
