@@ -101,6 +101,15 @@ if (token) {
     }
   });
 
+  bot.on("polling_error", (error) => {
+    if (error.code === "ETELEGRAM" && error.message.includes("409")) {
+      // Silently ignore polling conflicts to prevent terminal spam
+      return;
+    } else {
+      console.error("Telegram Polling Error:", error);
+    }
+  });
+
   console.log("✅ Telegram Bot initialized");
 }
 
