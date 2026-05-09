@@ -96,7 +96,6 @@ export default function Home() {
                                     onLetterAnimationComplete={handleAnimationComplete}
                                 />
                             </h1>
-                            <p>Artika empowers families with AI-driven health insights, seamless record management, and playful wellness tools, all in one place.</p>
                         </div>
 
                         <div className='Buttons'>
